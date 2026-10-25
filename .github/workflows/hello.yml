@@ -1,14 +1,26 @@
-name: My First Workflow
+name: Java CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Say Hello
-        run: echo "Hello! My first GitHub Actions workflow is running."
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Compile Java
+        run: javac src/main/java/Hello.java
+
+      - name: Run Java program
+        run: java -cp src/main/java Hello
